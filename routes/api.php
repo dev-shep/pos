@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VendedorAuthController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\ProductoController;
-
+use App\Http\Controllers\CarritoController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -50,3 +50,16 @@ Route::put('/product/{id}', [ProductoController::class, 'updateProduct']);
 //DELETE http://localhost:8000/api/product/1
 Route::delete('/product/{id}', [ProductoController::class, 'deleteProduct']);
 
+//crear carrito No es necesario enviar datos en el cuerpo de la solicitud (body), ya que estamos creando el carrito usando solo el clienteId
+//http://localhost:8000/api/cart/1
+Route::post('/cart/{clienteId}', [CarritoController::class, 'createCart']);
+
+
+//PUT http://localhost:8000/api/cart/1/add-product
+Route::put('/cart/{cartId}/add-product', [CarritoController::class, 'addProductToCart']);
+
+//PUT http://localhost:8000/api/cart/1/remove-product
+Route::put('/cart/{cartId}/remove-product', [CarritoController::class, 'removeProductFromCart']);
+C
+//POST http://localhost:8000/api/cart/1/checkout
+Route::post('/cart/{cartId}/checkout', [CarritoController::class, 'checkout']);
