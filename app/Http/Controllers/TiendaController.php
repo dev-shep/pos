@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tienda;
 use Illuminate\Support\Facades\Validator;
-
-
+use App\Http\Controllers\CompraController;
+use App\Models\Compra;
 class TiendaController extends Controller
 {
     public function createStore(Request $request)
@@ -16,11 +16,11 @@ class TiendaController extends Controller
             'nombre' => 'required|string|max:255',
             'vendedor_id' => 'required|exists:vendedores,id',  // Validar que el vendedor exista
         ]);
-
+        
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
+       
         // Crear la tienda
         $tienda = Tienda::create([
             'nombre' => $request->nombre,

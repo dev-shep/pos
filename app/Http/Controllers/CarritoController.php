@@ -1,18 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Carrito;
+use App\Models\Producto;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use App\Http\Controllers\ProductoController;
 class CarritoController extends Controller
 {
     // Método para crear un carrito para un cliente
     public function createCart(Request $request, $clienteId)
     {
         // Validar si el cliente existe
+        
         $cliente = Cliente::find($clienteId);
 
         if (!$cliente) {
@@ -34,6 +35,8 @@ class CarritoController extends Controller
     // Método para agregar un producto al carrito
     public function addProductToCart(Request $request, $cartId)
     {
+
+
         // Validar si el carrito existe
         $carrito = Carrito::find($cartId);
 
@@ -58,7 +61,11 @@ class CarritoController extends Controller
         }
 
         // Agregar el producto al carrito
-        $carrito->productos()->attach($producto->id, ['cantidad' => $request->cantidad]);
+        $carrito->productos()->attach($producto->id, [
+            'cantidad' => $request->cantidad,
+            'precio' => $producto->precio,
+            'compra_id' => $cartId, 
+        ]);
 
         return response()->json([
             'message' => 'Producto agregado al carrito exitosamente',

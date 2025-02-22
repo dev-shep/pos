@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('carritos', function (Blueprint $table) {
             $table->id();
+            $table->string('producto');
+            $table->integer('cantidad'); 
             $table->foreignId('cliente_id')->constrained('clientes');  // Relación con la tabla 'clientes'
             $table->enum('estado', ['pendiente', 'completado'])->default('pendiente');
             $table->timestamps();
