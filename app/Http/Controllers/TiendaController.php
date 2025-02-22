@@ -101,5 +101,34 @@ class TiendaController extends Controller
             'message' => 'Tienda eliminada exitosamente'
         ], 200);
     }
+    
+    // Obtener el historial de ventas de una tienda
+    public function getSalesHistory($storeId)
+    {
+        // Validar si la tienda existe
+        $tienda = Tienda::find($storeId);
+        if (!$tienda) {
+            return response()->json(['error' => 'Tienda no encontrada'], 404);
+        }
 
+        // Obtener todas las compras que incluyeron productos de esta tienda
+        $compras = Compra::whereHas('productos', function ($query) use ($storeId) {
+                        $query->where('tienda_id', $storeId);
+                    })
+                    ->with(['productos' => function ($query) use ($storeId) {
+                        $query->where('tienda_id', $storeId);
+                    }])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+        // Verificar si hay ventas
+        if ($compras->isEmpty()) {
+            return response()->json(['message' => 'No hay ventas registradas para esta tienda'], 200);
+        }
+
+        return response()->json([
+            'message' => 'Historial de ventas obtenido exitosamente',
+            'ventas' => $compras
+        ], 200);
+    }
 }

@@ -65,5 +65,8 @@ Route::put('/cart/{cartId}/remove-product', [CarritoController::class, 'removePr
 //POST http://localhost:8000/api/cart/1/checkout
 Route::post('/cart/{cartId}/checkout', [CarritoController::class, 'checkout']);
 
-
+//GET http://localhost:8000/api/purchase-history/1
 Route::get('/purchase-history/{clientId}', [CompraController::class, 'getPurchaseHistory']);
+
+//GET http://localhost:8000/api/sales-history/1
+Route::get('/sales-history/{storeId}', [TiendaController::class, 'getSalesHistory']);
