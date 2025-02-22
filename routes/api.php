@@ -7,6 +7,7 @@ use App\Http\Controllers\VendedorAuthController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\CompraController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -60,6 +61,9 @@ Route::put('/cart/{cartId}/add-product', [CarritoController::class, 'addProductT
 
 //PUT http://localhost:8000/api/cart/1/remove-product
 Route::put('/cart/{cartId}/remove-product', [CarritoController::class, 'removeProductFromCart']);
-C
+
 //POST http://localhost:8000/api/cart/1/checkout
 Route::post('/cart/{cartId}/checkout', [CarritoController::class, 'checkout']);
+
+
+Route::get('/purchase-history/{clientId}', [CompraController::class, 'getPurchaseHistory']);
